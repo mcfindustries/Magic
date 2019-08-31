@@ -1,0 +1,4 @@
+// Source Control
+
+
+URLRoot() & "db/" & [_DBID_QUOTED_PARTS] & "?a=q&qid=12&nv=2&v0=" &[Related Part] & "&v1="&[Maximum Related Quote RID]

@@ -1,0 +1,60 @@
+// Source Control
+
+// Images
+var text LockIMG  = "<img src=https://images.quickbase.com/si/48/045-lock.png>"; 
+
+//  Text to display
+var text Name = [Sales Rep Name];
+
+
+// URL HTTP GenAdd
+
+var text URL =
+  URLRoot() & "db/" & [_DBID_OPPORTUNITY_SUBMISSIONS] &
+  "?a=API_GenAddRecordForm&_fid_8=" & URLEncode ([Record ID#])&
+  "&dfid=10" &
+  "&z=" & Rurl();
+
+
+// URL  Java
+var text CreateXL =
+ 
+    "javascript:var wnd=window.open('https://www.quickbaseutilities1.com/tpiefficiency_560/XL Docs/ExcelGen_LP.aspx?"
+& "clientid=Q560"
+& "&appid=bhum3d42g"
+& "&tpdbid=" & [_DBID_DOCUMENT_TEMPLATES]
+& "&tpid=64"
+& "&fn=XL Document"
+& "&dbid=" & Dbid()
+& "&msid=" & URLEncode ([Record ID#])
+& "&faid=767&xlddte=768"
+& "&docfmt=xlsx"
+& "&apptoken=c6m92dqcefshpnmg5e84dd9qz7n"
+& "','copy','top=240,left=320,width=500,height=350,location=no,menubar=no,toolbar=no');\n\nvar id=setInterval(function() {if (wnd.closed) {clearInterval(id);location.reload(true);}},1000);void(0);";
+
+
+
+// Create
+
+ "<a href=" & $CreateXL & "' title=\"Click Me\">"  & $ExcelIMG &  "</a>"
+
+
+// Table
+
+  "<table style='width:100% cellspacing='10'  '>" &
+  "<tr>" &
+    "<th>" & "Firstname" & "</th>" &
+    "<th>" & "Lastname" & "</th>" & 
+    "<th>" & "Age" & "</th>" &
+  "</tr>" &
+  "<tr>" &
+    "<td>" & "Jill" & "</td>" &
+    "<td>" & "Smith" & "</td>" &
+    "<td>" & "50" & "</td>" &
+  "</tr>" &
+  "<tr>" &
+    "<td>" & "Eve" & "</td>" &
+    "<td>" &" Jackson" & "</td>" & 
+    "<td>" & "94" & "</td>" &
+  "</tr>" &
+"</table>"

@@ -1,0 +1,11 @@
+var text IMG = "<img src=https://images.quickbase.com/si/32/088-find_next.png>";
+
+var text Tip = "Click Me";
+
+var text URL =
+
+    URLRoot() & "db/" & Dbid() & "?a=dr&rid=" & [Record ID#];
+
+"<a href=" & $URL & "title=\" & $Tip & '\'   ">"  & $BusyImg &  "</a>"
+
+\\    "<a target='_blank' href=" & $URL & " title=\"Attach a full document to change the status\">"  & $IMG &  "</a>"   
