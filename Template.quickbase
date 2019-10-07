@@ -2,6 +2,9 @@
 
 // Images
 var text LockIMG  = "<img src=https://images.quickbase.com/si/48/045-lock.png>"; 
+var text GB = "<img src=\"https://images.quickbase.com/si/16/228-rect_green.png\">";
+var text YB = "<img src=\"https://images.quickbase.com/si/16/229-rect_yellow.png\">";
+var text RB = "<img src=\"https://images.quickbase.com/si/16/227-rect_red.png\">";
 
 //  Text to display
 var text Name = [Sales Rep Name];
