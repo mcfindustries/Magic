@@ -29,13 +29,25 @@ var workdate
 var user
 
 
-// URL HTTP GenAdd
+var text Token ="";
 
-var text URL =
-  URLRoot() & "db/" & [_DBID_OPPORTUNITY_SUBMISSIONS] &
+// URLs
+
+var text URLGenAdd =
+  URLRoot() & "db/" & [_Table] &
   "?a=API_GenAddRecordForm&_fid_8=" & URLEncode ([Record ID#])&
   "&dfid=10" &
   "&z=" & Rurl();
+
+var text URLAPIEdit =
+  URLRoot() & "db/" & Dbid() & "?act=API_EditRecord&apptoken="& $Token & "&rid=" &[Record ID#] & "&_fid_14="&1;
+
+var text URLAPIAdd =
+  URLRoot() & "db/" & [_Table] & "?a=API_AddRecord&AppToken=" &$Token & "&_fid_6=" & URLEncode ([Record ID#]);
+
+var text URLEdit =
+
+  URLRoot() & "db/" & Dbid() & "?a=er&rid="&URLEncode([Record ID#])&"&dfid=12"& "&z=" & Rurl()
 
 
 // URL  Java
@@ -55,6 +67,7 @@ var text CreateXL =
 & "','copy','top=240,left=320,width=500,height=350,location=no,menubar=no,toolbar=no');\n\nvar id=setInterval(function() {if (wnd.closed) {clearInterval(id);location.reload(true);}},1000);void(0);";
 
 
+"<a href=\"javascript:" & "$.get('" & $URL  & "', function(){" & "location.reload();" & "});" & "void(0);\">"&$IMG&"</a>"
 
 // Create
 
