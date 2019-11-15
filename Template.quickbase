@@ -67,9 +67,10 @@ var text CreateXL =
 & "','copy','top=240,left=320,width=500,height=350,location=no,menubar=no,toolbar=no');\n\nvar id=setInterval(function() {if (wnd.closed) {clearInterval(id);location.reload(true);}},1000);void(0);";
 
 
+// Java Execute URL
 "<a href=\"javascript:" & "$.get('" & $URL  & "', function(){" & "location.reload();" & "});" & "void(0);\">"&$IMG&"</a>"
 
-// Create
+// HTML Execute URL
 
  "<a href=" & $CreateXL & "' title=\"Click Me\">"  & $ExcelIMG &  "</a>"
 
