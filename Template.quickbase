@@ -12,7 +12,7 @@ var bool
 
 var number
 
-var text
+var text kirk ="Kirk";
 
 var textlist
 
@@ -29,7 +29,7 @@ var workdate
 var user
 
 
-var text Token ="";
+var text Token ="asdjgas;dgas;djgasd;fjgnas;kj";
 
 // URLs
 
