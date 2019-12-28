@@ -1,0 +1,9 @@
+// Source Control
+
+var text customButtonScriptOne = "<a href=javascript:$.getScript('https://YOURREALM.quickbase.com/db/YOURDBID?a=dbpage&pagename=";
+var text customButtonScriptTwo = "');void(0);";
+
+$customButtonScriptOne
+& "SaveAndNextTab.js"
+& $customButtonScriptTwo
+&  " class='Vibrant' style='color:white; background:#427cd8; white-space:nowrap;'>Next</a>"

@@ -1,0 +1,12 @@
+// Source Control
+
+//  Variables
+
+var number CalendarDays = (365 - DayOfYear([Start Date])); 
+var number DaysThisYear = if ( [Start Date]< FirstDayOfYear(Today()), 14, 
+            Round( $CalendarDays/365*14,.5)  );
+
+var number DaysPTORemain = $DaysThisYear-ToNumber(ToDays([Days Used]));
+
+// UI
+$DaysPTORemain
