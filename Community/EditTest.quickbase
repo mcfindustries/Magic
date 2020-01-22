@@ -1,0 +1,22 @@
+// Source Control
+
+// Images
+var text LockIMG  = "<img src=https://images.quickbase.com/si/48/045-lock.png>"; 
+var text GB = "<img src=\"https://images.quickbase.com/si/16/228-rect_green.png\">";
+var text YB = "<img src=\"https://images.quickbase.com/si/16/229-rect_yellow.png\">";
+var text RB = "<img src=\"https://images.quickbase.com/si/16/227-rect_red.png\">";
+
+//  Variables
+
+var text kirk ="Kirk";
+
+var text Token ="g3rcshcza79vvca6c3fnb7zqg8s";
+
+// URLs
+
+var text URLAPIEdit =
+  URLRoot() & "db/" & Dbid() & "?act=API_EditRecord&apptoken="& $Token & "&rid=" &[Record ID#] & "&_fid_15=_fid_14";
+
+
+// Java Execute URL
+"<a href=\"javascript:" & "$.get('" & $URLAPIEdit  & "', function(){" & "location.reload();" & "});" & "void(0);\">"&$LockIMG&"</a>"

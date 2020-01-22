@@ -1,0 +1,27 @@
+// Source Control
+
+// Variable Images
+var text LoggingHeader = "<img src=\"****.quickbase.com/up/bp9dy8gr2/g/rb/eh/va/... width=\"700\">";
+var text AllocatedHeader = "<img src=\"****.quickbase.com/up/bp9dy8gr2/g/rc/eh/va/... width=\"700\">";
+var text AwaitReplyHeader = "<img src=\"****.quickbase.com/up/bp9dy8gr2/g/rc/eh/va/... width=\"700\">";
+var text ClosedHeader = "<img src=\"****.quickbase.com/up/bp9dy8gr2/g/rc/eh/va/... width=\"700\">";
+var text RecordsHeader = "<img src=\"****.com/up/bp9dy8gr2/g/rc/eh/va/records.jpg\", width=\"700\">";
+
+var text Status = [Status];
+var text EventFC = [Event - Filing Code];
+var text FilingCode = [Filing Code];
+
+// Logic and UI
+
+// Debug Fields
+$Status & "<br>"&
+$EventFC & "<br>"&
+$FilingCode & "<br>"& 
+
+// Case Statement
+
+Case ([Status],
+"Logging" , If ( [Event - Filing Code]<>"" and [Filing Code]<>"", $LoggingHeader, $RecordsHeader), $LoggingHeader,
+"Allocated", If ( [Event - Filing Code]>"" and [Filing Code]<>"", $AllocatedHeader, $RecordsHeader),  $AllocatedHeader,
+"Awaiting Reply" , If ( [Event - Filing Code]<>"" and [Filing Code]<>"", $AwaitReplyHeader, $RecordsHeader),  $AwaitReplyHeader,
+"Closed",  If ( [Event - Filing Code]<>"" and [Filing Code]<>"", $ClosedHeader, $RecordsHeader), $ClosedHeader)

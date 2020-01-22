@@ -1,10 +1,10 @@
 // Source Control
 
 // Images
-var text LockIMG  = "<img src=https://images.quickbase.com/si/48/045-lock.png>"; 
-var text GB = "<img src=\"https://images.quickbase.com/si/16/228-rect_green.png\">";
-var text YB = "<img src=\"https://images.quickbase.com/si/16/229-rect_yellow.png\">";
-var text RB = "<img src=\"https://images.quickbase.com/si/16/227-rect_red.png\">";
+var text IMGLock  =     "<img src=https://images.quickbase.com/si/48/045-lock.png>"; 
+var text GB =           "<img src=https://images.quickbase.com/si/16/228-rect_green.png>";
+var text YB =           "<img src=https://images.quickbase.com/si/16/229-rect_yellow.png>";
+var text RB =           "<img src=https://images.quickbase.com/si/16/227-rect_red.png>";
 
 //  Variables
 
@@ -12,7 +12,7 @@ var bool
 
 var number
 
-var text kirk ="Kirk";
+var text ;
 
 var textlist
 
@@ -28,13 +28,14 @@ var workdate
 
 var user
 
+var text UserRole = ToText(UserRoles("ID"));
 
-var text Token ="asdjgas;dgas;djgasd;fjgnas;kj";
+var text Token ="abcdefghijklmnopqrstuv";
 
 // URLs
 
 var text URLGenAdd =
-  URLRoot() & "db/" & [_Table] &
+  URLRoot() & "db/" & Dbid() &
   "?a=API_GenAddRecordForm&_fid_8=" & URLEncode ([Record ID#])&
   "&dfid=10" &
   "&z=" & Rurl();
@@ -43,7 +44,7 @@ var text URLAPIEdit =
   URLRoot() & "db/" & Dbid() & "?act=API_EditRecord&apptoken="& $Token & "&rid=" &[Record ID#] & "&_fid_14="&1;
 
 var text URLAPIAdd =
-  URLRoot() & "db/" & [_Table] & "?a=API_AddRecord&AppToken=" &$Token & "&_fid_6=" & URLEncode ([Record ID#]);
+  URLRoot() & "db/" & Dbid() & "?a=API_AddRecord&AppToken=" &$Token & "&_fid_6=" & URLEncode ([Record ID#]) & "&dfid=2";
 
 var text URLEdit =
 
