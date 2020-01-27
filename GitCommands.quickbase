@@ -1,2 +1,3 @@
 // Source Control
 var text MSG = "Roll reset test";
+var text MSGTwo = "Second Message";
