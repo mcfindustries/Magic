@@ -1,4 +1,9 @@
 // Source Control
+// [Alias]=[_DBID_XXX]
+// [DBID]="XXX"
+// FID=XXX
+var text Token ="abcdefghijklmnopqrstuv";
+// Trigger
 
 // Images
 var text IMGLock  =     "<img src=https://images.quickbase.com/si/48/045-lock.png>"; 
@@ -12,7 +17,7 @@ var bool
 
 var number
 
-var text ;
+var text HoverWords = "Hover in the HTML";
 
 var textlist
 
@@ -30,7 +35,6 @@ var user
 
 var text UserRole = ToText(UserRoles("ID"));
 
-var text Token ="abcdefghijklmnopqrstuv";
 
 // URLs
 
@@ -41,14 +45,21 @@ var text URLGenAdd =
   "&z=" & Rurl();
 
 var text URLAPIEdit =
-  URLRoot() & "db/" & Dbid() & "?act=API_EditRecord&apptoken="& $Token & "&rid=" &[Record ID#] & "&_fid_14="&1;
+  URLRoot() & "db/" & Dbid() & "?act=API_EditRecord&apptoken="&
+  $Token &
+  "&rid=" &[Record ID#] &
+  "&_fid_XX=" & "1";
 
 var text URLAPIAdd =
-  URLRoot() & "db/" & Dbid() & "?a=API_AddRecord&AppToken=" &$Token & "&_fid_6=" & URLEncode ([Record ID#]) & "&dfid=2";
+  URLRoot() & "db/" & Dbid() & "?a=API_AddRecord&AppToken=" &
+  $Token &
+  "&_fid_XX=" & URLEncode ([Record ID#]);
 
 var text URLEdit =
 
-  URLRoot() & "db/" & Dbid() & "?a=er&rid="&URLEncode([Record ID#])&"&dfid=12"& "&z=" & Rurl()
+  URLRoot() & "db/" & Dbid() & "?a=er&rid=" &URLEncode([Record ID#]) &
+  "&dfid=12"&
+  "&z=" & Rurl();
 
 
 // URL  Java
@@ -73,25 +84,31 @@ var text CreateXL =
 
 // HTML Execute URL
 
+"<div>" & "<span title=" & $HoverWords & ">" & $Hyperlink & "</b></span>" & "<div>";
  "<a href=" & $CreateXL & "' title=\"Click Me\">"  & $ExcelIMG &  "</a>"
 
 
 // Table
 
+var text Table UI =
   "<table style='width:100% cellspacing='10'  '>" &
   "<tr>" &
-    "<th>" & "Firstname" & "</th>" &
-    "<th>" & "Lastname" & "</th>" & 
-    "<th>" & "Age" & "</th>" &
+    "<th>" & "Header ONE" & "</th>" &
+    "<th>" & "Header TWO" & "</th>" & 
+    "<th>" & "Header THREE" & "</th>" &
   "</tr>" &
   "<tr>" &
-    "<td>" & "Jill" & "</td>" &
-    "<td>" & "Smith" & "</td>" &
-    "<td>" & "50" & "</td>" &
+    "<td>" & "Row One" & "</td>" &
+    "<td>" & "Row One" & "</td>" &
+    "<td>" & "Row One" & "</td>" &
   "</tr>" &
   "<tr>" &
-    "<td>" & "Eve" & "</td>" &
-    "<td>" &" Jackson" & "</td>" & 
-    "<td>" & "94" & "</td>" &
+    "<td>" & "Row Two" & "</td>" &
+    "<td>" &" Row Two" & "</td>" & 
+    "<td>" & "Row Two" & "</td>" &
   "</tr>" &
-"</table>"
+"</table>";
+
+// UI
+
+$TableUI
