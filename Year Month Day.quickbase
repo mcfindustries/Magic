@@ -1,0 +1,30 @@
+// Source Control
+// [Alias]=[_DBID_XXX]
+// [DBID]="XXX"
+// FID=XXX
+var text Token ="abcdefghijklmnopqrstuv";
+// Year Month Day Code
+
+var date MyDate = [My date];
+var text Years = ToText(Year(Today())-Year($MyDate) -
+            If( Month(Today())<Month($MyDate)
+                or
+            (Month(Today())=Month($MyDate) and Day(Today())<Day($MyDate)),1,0));
+
+var text Months =  If(
+            Month(Today()) > Month($MyDate), ToText(Month(Today()) - Month($MyDate)),
+            Month(Today()) = Month($MyDate) and Day(Today()) >= Day($MyDate), ToText(Month(Today()) - Month($MyDate)),
+            Month(Today()) = Month($MyDate) and Day(Today()) < Day($MyDate), "11",
+            ToText(12-(Month($MyDate) - Month(Today()))));
+
+var text DaysDisplay = If ( Day(Today()) > Day($MyDate), ToText( Day(Today()) - Day($MyDate) ),
+                        Day(Today()) = Day($MyDate), "0",
+                        Day(Today()) < Day($MyDate), ToText( Day($MyDate)-Day(Today())  ));
+
+
+var text RawResult=
+$Years & " Year" & If ($Years <> "1","s","") & "<br>" &
+$Months & " Month" & If($Months<>"1","s", "") "<br>" &
+$DaysDisplay & " Day" & If($DaysDisplay<>"1","s", "");
+
+$RawResult

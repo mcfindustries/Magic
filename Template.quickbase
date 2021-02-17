@@ -90,7 +90,7 @@ var text CreateXL =
 
 // Table
 
-var text Table UI =
+var text TableUI =
   "<table style='width:100% cellspacing='10'  '>" &
   "<tr>" &
     "<th>" & "Header ONE" & "</th>" &

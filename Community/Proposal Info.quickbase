@@ -1,0 +1,30 @@
+// Images
+var text GB =           "<img src=https://images.quickbase.com/si/16/228-rect_green.png>";
+var text RB =           "<img src=https://images.quickbase.com/si/16/227-rect_red.png>";
+
+//  Variables
+
+var text ProposalDateError = If ( isnull([PWO Proposal Due Date])=true, $RB & "Proposal Due Date is blank", $GB & "Proposal Due: " & [PWO Proposal Due Date]);
+var text ProposalRecieved = If( IsNull([Proposal Received 2B Alight]=false,  $GB & " Proposal Recieved", $RB & " Proposal Not Recieved");
+var text ProposalLate = If ( Today()>=[PWO Proposal Due Date]and IsNull([Proposal Received 2B Alight]=true), $RB & "Proposal is late","" );
+
+// UI
+
+$ProposalDateError & "<br>" &
+$ProposalRecieved & "<br>" &
+$ProposalLate
+
+var text ProposalLate = If ( Today()>=[PWO Proposal Due Date]and IsNull([Proposal Received 2B Alight]=true), $RB & "Proposal is late",
+                        [Proposal DTS]>[PWO Proposal Due Date] ), $RB & "Proposal was late","" );
+
+
+
+If ( isnull([PWO Proposal Due Date])=true, $RB & "Proposal Due Date is blank", $GB & "Proposal Due: " & [PWO Proposal Due Date]);
+If( IsNull([Proposal Received 2B Alight]=false,  $GB & " Proposal Recieved", $RB & " Proposal Not Recieved");
+If ( Today()>=[PWO Proposal Due Date]and IsNull([Proposal Received 2B Alight]=true), $RB & "Proposal is late","" );
+
+
+// Formula Check Box
+
+If ( IsNull([Proposal Received 2B Alight]=false and ([Proposal Received 2B Alight]<=[PWO Proposal Due Date] ), True,
+            Today()>[PWO Proposal Due Date], False,  True )
