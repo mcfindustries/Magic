@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #container {
+        font-family: arial, san-serif;
+	text-align: center;
+        font-size: 24px;
+        margin-top: 100px;
+    }
+  </style>
+</head>
+<body>
+  
+<div id="container"></div>
+
+<script>
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const toUrl = urlParams.get('to');
+const message = urlParams.get('message');
+const returnUrl = urlParams.get('redirect');
+const delay = urlParams.get('delay');
+const dbid = urlParams.get('childdbid');
+const state = urlParams.get('state');
+
+
+function getAjax(url, success) {
+    var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    xhr.open('GET', url);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState>3 && xhr.status==200) success(xhr.responseXML);
+    };
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.send();
+    return xhr;
+}
+
+
+if(message) {
+  var container = document.getElementById('container');
+  container.innerHTML = escape(message).replace(/%20/g, ' '); 
+}
+
+function complete(returnUrl, rid) {
+  returnUrl = escape(returnUrl);
+  if(returnUrl) {
+    if(returnUrl == 'child') {
+      parent.window.opener.location = dbid + "?a=" + ((state) ? state : 'er') + "&rid=" + rid;
+    } else if(returnUrl = 'none'){
+    } else { 
+      parent.window.opener.location = returnUrl;
+    }
+  } else {
+    parent.window.opener.location.reload();
+  }
+  window.close();
+}
+
+getAjax(toUrl, function(data){
+  var rid = data.documentElement.children[3].textContent;
+  if(delay) {
+	setTimeout(function() {
+	  complete(returnUrl, rid)
+       },(delay*1000))
+  } else { 
+    complete(returnUrl, rid)
+  }
+});
+
+</script>
+</body>
+</html>
