@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prompt and Refresh</title>
+</head>
+<style>
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+<body>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'> </script>
+<script>
+    function run() {
+        $('#form').hide();
+        $('#status').show();
+        const input = document.getElementById('input').value;
+
+        let urlParams = new URLSearchParams(window.location.search);
+        let url = urlParams.get('url') + encodeURIComponent(input);
+        let redirect = urlParams.get('redirect');
+        let landing;
+
+        if(redirect){
+            landing = redirect;
+        }else{
+            landing = document.referrer;
+        }
+
+        fetch(url, {
+            method: 'post',
+            mode: 'no-cors',
+            headers: { 'Content-type': 'text/plain' }
+        }).then((response) => {
+            rdr(landing);
+        })
+
+    }
+    function rdr(landing){
+        // Redirects to the specified landing page, if this page is the landing page as well, then redirect to the app home page
+        if(landing && landing !== window.location.href) {
+            window.location.href = landing;
+        }else{
+            window.location.href = window.location.origin + window.location.pathname;
+        }
+    }
+
+</script>
+<div class="container" id="form">
+    <h2>Input Needed</h2>
+    <form onSubmit="run();">
+        <div class="form-group">
+            <label for="input">Please provide some input</label>
+            <input class="form-control" id="input" autofocus>
+        </div>
+        <a class="btn btn-primary" onclick="run()" role="button">Submit</a>
+        <a class="btn" onclick="window.location.href = document.referrer;" role="button">Cancel</a>
+    </form>
+</div>
+<div class="container" id="status" style="text-align:center" hidden>
+    <h2>Making API Calls, will redirect once complete.</h2>
+    <div class="loader" id="loader"></div></div>
+<br>
+</body>
+</html>
+
+<!--
+These code samples are provided "AS IS" without any warranties of any kind and is not supported by Quick Base teams.
+You are responsible for the security and maintenance of any third-party code inside of your application.
+Any reliance on Quick Base functions, HTML, CSS or other document-object-model (DOM) elements should be considered unstable and may change at any time, without notice.
+
+Builders should not reference or rely on common libraries hosted by Quickbase (such as jQuery or Angular) as these may change at any time.
+Customers should reference their own hosted libraries or from 3rd-party resources that they can trust and maintain
+-->
