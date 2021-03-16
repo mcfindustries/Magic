@@ -15,10 +15,11 @@ var text TableID ="brauu5i7c";
 var text Token = "c392fevccay36pc4vcqf4bcrbucy";
 var number DateTimeField =7;
 var number TextField = 10;
+var text  AliasTableID = [_DBID_PARENTS];
 
 // URL for business logic
-var text URLOne = URLRoot() & "db/" & $TableID & "?a=API_EditRecord&apptoken=" &$Token & "&rid=" & [Record ID#] & "&_fid_" &$DateTimeField & "=" & Now();
-var text URLTwo = URLRoot() & "db/" & $TableID & "?a=API_EditRecord&apptoken=" &$Token & "&rid=" & [Record ID#] & "&_fid_" &$TextField & "=" & ToText([Date Modified]);
+var text URLOne = URLRoot() & "db/" & $AliasTableID & "?a=API_EditRecord&apptoken=" &$Token & "&rid=" & [Record ID#] & "&_fid_" &$DateTimeField & "=" & Now();
+var text URLTwo = URLRoot() & "db/" & $AliasTableID & "?a=API_EditRecord&apptoken=" &$Token & "&rid=" & [Record ID#] & "&_fid_" &$TextField & "=" & ToText([Date Modified]);
 var text toUrl = $URLOne & "&rdr=" & URLEncode($URLTwo);
 
 
