@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'> </script>
+    <script>
+        const headers = new Map; // All headers that utilize Temp Tokens will be stored/updated in this global variable
+
+        function run(){
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const dbid = urlParams.get('dbid');
+            const appToken = urlParams.get('apptoken');
+            const realm = window.location.hostname.substring(0,window.location.hostname.indexOf("."));
+            const dbids = [dbid]; // Temp Auth will be retrieved for all DBIDs in this array
+
+            // call the authLoop function, passing in the realm, dbids, and apptoken
+            authLoop(realm,dbids,appToken).then(()=>{
+
+                statusStream(`These headers can now be used for API calls to ${dbid}:`);
+                // statusStream(JSON.stringify(headers.get(dbid))); // This is a simplified (non-formatted) way to display the same info as below
+                // The next three lines are broken out for easier to read formatting on the page itself
+                statusStream(`{"QB-Realm-Hostname": "${headers.get(dbid)['QB-Realm-Hostname']}"`);
+                statusStream(`"userAgent": "${headers.get(dbid)['userAgent']}"`);
+                statusStream(`"Authorization": "${headers.get(dbid)['Authorization']}"}`);
+                statusStream('<br><h1>Stick around to see the token automatically refresh in 15 seconds</h1><br>');
+
+                // Run the rest of your functions here
+                // Sample Query Call
+                $.ajax({
+                    url: `https://api.quickbase.com/v1/records/query`,
+                    method: 'POST',
+                    headers: headers.get(dbid), // This is pulling the header generated with temp auth
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({"from":dbid,"where":"{3.GT.0}","options":{"top":1}}),
+                    success: function (response) {
+                        // console.log(JSON.stringify(response, null, 2));
+                    }
+                });
+            });
+            // Start the auth refresh timer
+            refreshTempAuth(realm,dbids,appToken);
+
+        }
+
+        function refreshTempAuth(realm, dbids, apptoken) {
+            // Temp Auth tokens are only valid for 5 mins - This refreshes those tokens every 4 mins to prevent errors when the script runs longer than 5 mins
+            setInterval(() => {
+                statusStream(`<span style="color:green"><b>It's been 15 seconds, refreshing Temp Token now...</b></span>`)
+                authLoop(realm, dbids, apptoken);
+                $('#nav').show();
+
+            }, 15000); // Currently set to refresh every 15 seconds || *** Recommended setting for a Production env is 240000 (4 mins) ***
+        }
+        async function authLoop(realm, dbids, apptoken){
+            // Loop through each dbid to get the temporary authentication
+            for (let i = 0; i < dbids.length; i++) {
+                await getTempAuth(realm,dbids[i],apptoken).then((header)=>{
+                    headers.set(dbids[i], header); // Store the temp auth in the headers map
+                })
+            }
+        }
+        function getTempAuth(realm, dbid, appToken) {
+            return new Promise(function(resolve) {
+                statusStream(`Making API call to <i>https://api.quickbase.com/v1/auth/temporary/${dbid}</i>...`)
+                $.ajax({
+                    url: `https://api.quickbase.com/v1/auth/temporary/${dbid}`,
+                    method: 'GET',
+                    headers: {
+                        'QB-Realm-Hostname': realm,
+                        'userAgent': 'QB APIGateway',
+                        'QB-App-Token': appToken
+                    },
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function (data) {
+                        statusStream(`<b>Temp Token</b>: ${data.temporaryAuthorization}`);
+                        statusStream(`This temporary token has access to Table ID <b>${dbid}</b> for 5 minutes<br>`)
+                        // return the header object, with temp token, for the specified dbid
+                        resolve({
+                            'QB-Realm-Hostname': realm,
+                            'userAgent': 'QB APIGateway',
+                            'Authorization': `QB-TEMP-TOKEN ${data.temporaryAuthorization}`
+                        });
+                    }
+                });
+            })
+        }
+
+        function statusStream(message) {
+            // Add message to the on screen status stream
+            document.getElementById('statusLog').insertAdjacentHTML("beforeend", `${message}<br>`);
+        }
+        function rdr(num){
+            if(num===1) {
+                window.location.href = document.referrer; // Redirect to the previous page
+            }else{
+                window.location.href = window.location.origin + window.location.pathname; // Redirect to the app home page
+            }
+        }
+    </script>
+    <title>Get Temporary Tokens</title>
+</head>
+<body onload="run()">
+<div class="text-center" id="form" >
+    <h2>Get Temporary Token</h2>
+    <div id="statusLog" style="font-size:20px"  class="text-center"></div> <!-- This is the element that the statusStream writes to -->
+    <div id="nav" hidden>
+        <br><br>
+        <h3>Where would you like to be redirected to?</h3>
+        <a class="btn btn-primary" onclick="rdr(2)" role="button">Dashboard</a>
+        <a class="btn btn-primary" onclick="rdr(1)" role="button">Previous Page</a>
+    </div>
+</div>
+</body>
+</html>
+
+<!--
+These code samples are provided "AS IS" without any warranties of any kind and is not supported by Quick Base teams.
+You are responsible for the security and maintenance of any third-party code inside of your application.
+Any reliance on Quick Base functions, HTML, CSS or other document-object-model (DOM) elements should be considered unstable and may change at any time, without notice.
+
+Builders should not reference or rely on common libraries hosted by Quickbase (such as jQuery or Angular) as these may change at any time.
+Customers should reference their own hosted libraries or from 3rd-party resources that they can trust and maintain
+-->

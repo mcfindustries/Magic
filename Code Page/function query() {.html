@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<body>
+function query() {
+    const fields = NEfids.split('.');
+    const params = {
+        "from": dbid,
+        "where": `{3.EX.${rid}}`,
+        "select": fields
+    };
+    $.ajax({
+        url: `https://api.quickbase.com/v1/records/query`,
+        method: 'POST',
+        headers: headers.get(dbid),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(params),
+        success: function (response) {
+            // console.log(response);
+
+            // Generate Form Dynamically
+            $(document).ready(function () {
+                let wrapper = $("#DisplayForm");
+                for (let i = 0; i < response.fields.length; i++) {
+                    const NEfid = response.fields[i].id;
+                    const fLabel = response.fields[i].label;
+                    const fType = response.fields[i].type;
+
+                    let type, val, value = "";
+                    if (response.data[0]) {
+                        if (fType === "timestamp") {
+                            value = `value="${response.data[0][NEfid].value.slice(0, -1)}"`; // Removes the Z from the end of the returned timestamp
+                        } else if (fType === "checkbox" && response.data[0][NEfid].value === true) {
+                            value = `value="${response.data[0][NEfid].value}" checked`; // Marks checkbox as true if necessary
+                        } else if (fType === "user" && response.data[0][NEfid].value === true) {
+                            value = `value="${response.data[0][NEfid].value.email}"`; // Returns the users email address
+                        } else {
+                            value = `value="${response.data[0][NEfid].value}"`;
+                            val = response.data[0][NEfid].value;
+                        }
+                    }
+
+                    // Determine the type of input field
+                    switch (fType) {
+                        case "date":
+                            type = "date"
+                            break;
+                        case "timestamp":
+                            type = "datetime-local"
+                            break;
+                        case "timeofday":
+                            type = "time"
+                            break;
+                        case "checkbox":
+                            type = "checkbox"
+                            break;
+                        case "phone":
+                            type = "tel"
+                            break;
+                        case "numeric":
+                            type = "number"
+                            break;
+                        case "text-multi-line":
+                            type = "textarea"
+                            break;
+                        case "rich-text":
+                            type = "textarea"
+                            break;
+                        case "text-multiple-choice":
+                            type = "select"
+                            break;
+                        default:
+                            type = "text"
+
+                    }
+
+                    // This sets the styling of input fields which are dynamically generated
+                    let input;
+                    if(type === "textarea"){
+                        input = `<label for="${NEfid}">${fLabel}</label><textarea class="form-control" id="${NEfid}" ${value}/><br>`;
+                    }else if(type === "select"){
+                        input = `<label for="${NEfid}">${fLabel}</label><select class="form-control" id="${NEfid}"><option></option></select><br>`;
+                    }else {
+                        input = `<label for="${NEfid}">${fLabel}</label><input type="${type}" class="form-control" id="${NEfid}" ${value}/><br>`;
+                    }
+                    $(wrapper).append(input);
+                    if(type === "select"){
+                        getChoices(dbid, NEfid, val, headers.get(dbid))
+                    }
+                }
+            });
+        }
+    })
+}
+</body>
+</html>

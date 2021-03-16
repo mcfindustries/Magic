@@ -1,0 +1,33 @@
+// Source Control
+// [Alias]=[_DBID_XXX]
+// [DBID]="XXX"
+// FID=XXX
+var text Token = "c392fevccay36pc4vcqf4bcrbucy";
+// Trigger
+
+// Images
+var text IMGLock  =     "<img src=https://images.quickbase.com/si/48/045-lock.png>"; 
+var text GB =           "<img src=https://images.quickbase.com/si/16/228-rect_green.png>";
+var text YB =           "<img src=https://images.quickbase.com/si/16/229-rect_yellow.png>";
+var text RB =           "<img src=https://images.quickbase.com/si/16/227-rect_red.png>";
+
+//  Variables
+
+var text MSG = "Click to execute Code Page";
+
+var text UserRole = ToText(UserRoles("ID"));
+
+
+// URLs
+
+var text URLCodepage =
+  URLRoot() & "db/" & AppID() & "?a=dbpage&pageid=5" 
+& "&dbid=" & Dbid() 
+& "&rid=" & [Record ID#] 
+& "&fids=6.7.8"
+& "&apptoken=" & $Token;
+
+// UI
+
+ "<a href=" & $URLCodepage &  ">"  & $MSG &  "</a>"
+

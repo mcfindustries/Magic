@@ -1,0 +1,38 @@
+// Source Control
+// [Alias]=[_DBID_PARENTS]
+// [DBID]="brauu5i7c"
+// FID=9
+//  Rich Text for Code Page
+
+// Images
+var text IMGClock  =     "<img src=https://images.quickbase.com/si/32/031-folder_add.png>"; 
+var text GB =           "<img src=https://images.quickbase.com/si/16/228-rect_green.png>";
+var text YB =           "<img src=https://images.quickbase.com/si/16/229-rect_yellow.png>";
+var text RB =           "<img src=https://images.quickbase.com/si/16/227-rect_red.png>";
+
+// Business Logic Variables
+var text TableID ="brauu5i7c";
+var text Token = "c392fevccay36pc4vcqf4bcrbucy";
+var number DateTimeField =7;
+var number TextField = 10;
+
+// URL for business logic
+var text URLOne = URLRoot() & "db/" & $TableID & "?a=API_EditRecord&apptoken=" &$Token & "&rid=" & [Record ID#] & "&_fid_" &$DateTimeField & "=" & Now();
+var text URLTwo = URLRoot() & "db/" & $TableID & "?a=API_EditRecord&apptoken=" &$Token & "&rid=" & [Record ID#] & "&_fid_" &$TextField & "=" & ToText([Date Modified]);
+var text toUrl = $URLOne & "&rdr=" & URLEncode($URLTwo);
+
+
+// Code Page URL Variables
+var number CodePageID =3; 
+var text message = "Please wait loading stuff...";
+var text MSGUI = "Click to run ";
+var text delay = "1.25";
+var text Refresh = "No";  // set to No or it will default to Refresh
+
+// Code Page URL
+var text redirect = If($Refresh="No", "none", "");
+var text URLCodePage = URLRoot() & "db/" &AppID() & "?a=dbpage&pageid=" & $CodePageID & "&to=" & URLEncode($toUrl) & "&message=" & URLEncode($message) & "&delay=" & $delay & "&redirect=" & URLEncode($redirect);
+ 
+
+ // UI Logic and Permissions
+ "<a rel='opener'  target='_blank' href=" & $URLCodePage & ">" & $IMGClock & "<br>" & $MSGUI &  "</a>"

@@ -33,6 +33,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             const dbid = urlParams.get('dbid');
             let rid = urlParams.get('rid');
+            const NEfids = urlParams.get('NEfids');
             const fids = urlParams.get('fids');
             const appToken = urlParams.get('apptoken');
             const embed = urlParams.get('embed');
@@ -59,19 +60,19 @@
             // Temporary Auth doesn't work with EOTI since the user isn't logged into the realm. For this reason the getTempAuth() call is commented out.
             // For production use cases, delete the EOTI Auth section and uncomment the Temp Auth section immediately below that
             // Begin EOTI Auth
-            headers.set(dbid, {
-                'QB-Realm-Hostname': realm,
-                'userAgent': 'QB APIGateway',
-                'Authorization': `QB-TEMP-TOKEN ` // EOTI access doesn't require a token
-            });
-            query();
+           // headers.set(dbid, {
+           //     'QB-Realm-Hostname': realm,
+           //     'userAgent': 'QB APIGateway',
+           //     'Authorization': `QB-TEMP-TOKEN ` // EOTI access doesn't require a token
+           // });
+           // query();
             // End EOTI Auth
 
             // Begin Temp Auth
-            // getTempAuth(realm, dbid, appToken).then((header) => {
-            //     headers.set(dbid, header);
-            //     query();
-            // });
+             getTempAuth(realm, dbid, appToken).then((header) => {
+                 headers.set(dbid, header);
+                 query();
+             });
             // End Temp Auth
 
             function query() {
@@ -212,19 +213,19 @@
             // Temporary Auth doesn't work with EOTI since the user isn't logged into the realm. For this reason the getTempAuth() call is commented out.
             // For production use cases, delete the EOTI Auth section and uncomment the Temp Auth section immediately below that
             // Begin EOTI Auth
-            headers.set(dbid, {
-                'QB-Realm-Hostname': realm,
-                'userAgent': 'QB APIGateway',
-                'Authorization': `QB-TEMP-TOKEN ` // EOTI access doesn't require a token
-            });
-            save();
+            //headers.set(dbid, {
+            //    'QB-Realm-Hostname': realm,
+            //    'userAgent': 'QB APIGateway',
+            //    'Authorization': `QB-TEMP-TOKEN ` // EOTI access doesn't require a token
+            //});
+            //save();
             // End EOTI Auth
 
             // Begin Temp Auth
-            // getTempAuth(realm, dbid, appToken).then((header) => {
-            //     headers.set(dbid, header);
-            //     save();
-            // });
+             getTempAuth(realm, dbid, appToken).then((header) => {
+                 headers.set(dbid, header);
+                 save();
+             });
             // End Temp Auth
 
             function save(){
@@ -335,7 +336,7 @@
     <div class="container" id="form">
         <h2 id="test"></h2>
         <h4 id="description" hidden>This form is dynamically generated based on the FIDs (Field IDs) passed in the URL. It also is able to handle both adds and edits by detecting if a RID (Record ID#, FID 3) is passed in the URL.  If no RID is provided, a new record will be created.</h4>
-        <h5 style="color:red">For demo purposes data entered here will be viewable by Everyone on the Internet. Don't enter any sensitive data</h5>
+        <h5 style="color:red">This is not the demo.  Figure out the message control soon.</h5>
         <form>
             <div class="form-group">
                 <div id="inputForm"></div>
