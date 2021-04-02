@@ -3,7 +3,7 @@
 // [DBID]="XXX"
 // FID=XXX
 var text Token = "c392fevccay36pc4vcqf4bcrbucy";
-// Trigger
+// Rich Text for AddEditRecordForm Code Page
 
 // Images
 var text IMGLock  =     "<img src=https://images.quickbase.com/si/48/045-lock.png>"; 
@@ -14,17 +14,21 @@ var text RB =           "<img src=https://images.quickbase.com/si/16/227-rect_re
 //  Variables
 
 var text MSG = "Click to execute Code Page";
-
 var text UserRole = ToText(UserRoles("ID"));
+
+
+//  Code Page Variables
+var number CodePage = 5;   // This is the page number of the file AddEditRecordForm.html in the application
+var text EditFields = "6.7.8"   // These are the fields in the table that will be pushed to CP and shown in HTML
 
 
 // URLs
 
 var text URLCodepage =
-  URLRoot() & "db/" & AppID() & "?a=dbpage&pageid=5" 
+  URLRoot() & "db/" & AppID() & "?a=dbpage&pageid=" & $CodePage 
 & "&dbid=" & Dbid() 
 & "&rid=" & [Record ID#] 
-& "&fids=6.7.8"
+& "&fids=" & URLEncode($EditFields)
 & "&apptoken=" & $Token;
 
 // UI
