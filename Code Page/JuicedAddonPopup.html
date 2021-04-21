@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- 
+Author:	JUICED TECHNOLOGIES, INC. <info@juicedtech.com> 631-617-5060
+Purpose: 	When called this routine will Pop Up a window for use with Juiced Technologies Add-ons for Quickbase
+Copyright 2021: Juiced Technologies, Inc.
+ 
+Please DO NOT rename this page.  It must remain JuicedAddonPopup.html
+-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+// This DB page allows you to execute Juiced add-ons without JavaScript in the formula URL.
+
+$(document).ready(function(){
+
+    var urlParams = new URLSearchParams(window.location.search);
+   
+    var PostURLNew="";
+    var counter=0;
+    var buildRequest=false;
+
+    var PostURL = urlParams.get("url");
+
+    var redirectURL = urlParams.get("rdr");
+   
+   if(PostURL.toLowerCase().includes("request="))
+   {
+     //In this scenario NO need to iterate through the parameters and build the request to post it to the respective server
+     PostURLNew = PostURL;
+     buildRequest=false;	 
+   }
+   else
+   {
+     buildRequest=true;
+   }
+   
+   if(buildRequest)
+   {
+       for(var pair of urlParams.entries())  //for-loop
+       {
+       
+	//console.log(pair[0]+ ', '+ pair[1]);  //To write it to the console window of the debugger
+	   
+	if(counter>1)
+	{
+	     PostURLNew += pair[0] + "=" + pair[1] + "&";
+        }
+	  	   
+       if(pair[0].toLowerCase() == "url")
+       {
+           PostURLNew=pair[1] + "&"; 
+           counter=1;           		   
+       }
+	   
+        if(counter==1)
+	{	      
+	       counter+=1;	      
+	}
+     }
+   }
+   
+   var defaultwinProperties ="top=150,left=220,location=no,menubar=no,toolbar=no,"
+
+   var winWidth="";
+
+   var winHeight="";
+
+  winWidth=urlParams.get("width");
+
+  winHeight=urlParams.get("height");
+
+  
+ if(winWidth=="" || winWidth==null)
+ {
+   winWidth = 650;
+ }
+
+  if(winHeight=="" || winHeight==null)
+ {
+   winHeight = 550;
+ }
+
+ 
+   var wnd = window.open(PostURLNew,"",defaultwinProperties+'width='+winWidth+','+'height='+winHeight);
+
+   var id=setInterval(function() 
+                   { 
+                      if (wnd.closed) 
+                       {     
+                            if (redirectURL=="" || redirectURL==null)
+                            {
+                                //Falls into this condition if the 'rdr' parameter is not passed 
+                                history.back();  // to redirect back to the Quickbase record which clicked on the button      
+                            }
+                            else
+                            {                                
+                                window.location.href=redirectURL;
+                            }                          
+                       }
+                    }); 
+                  void(0);
+
+}); //closing the document.ready function
+</script>
+</head>
+<body>
+</body>
+</html>
