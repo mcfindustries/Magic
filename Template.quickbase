@@ -85,6 +85,9 @@ var text CreateXL =
 "<div>" & "<span title=" & $HoverWords & ">" & $Hyperlink & "</b></span>" & "<div>";
  "<a href=" & $CreateXL & "' title=\"Click Me\">"  & $ExcelIMG &  "</a>"
 
+var text URL = URLRoot() & .............
+
+"<a href=\"" &url & "\" class=\"OpenAsPopup\">Words Here</a>"
 
 // Table
 
