@@ -80,6 +80,18 @@ var text CreateXL =
 & "&apptoken=c6m92dqcefshpnmg5e84dd9qz7n"
 & "','copy','top=240,left=320,width=500,height=350,location=no,menubar=no,toolbar=no');\n\nvar id=setInterval(function() {if (wnd.closed) {clearInterval(id);location.reload(true);}},1000);void(0);";
 
+
+// Get Records
+
+GetCellValues(
+  GetRecords( 
+    "{FID.GTE." & [Field]& " AND {FID.LTE. "& [Field Two] &"}, [_Table_Name]"
+            ) , FIDQueried )
+  
+
+
+
+
 // HTML Execute URL
 
 "<div>" & "<span title=" & $HoverWords & ">" & $Hyperlink & "</b></span>" & "<div>";
