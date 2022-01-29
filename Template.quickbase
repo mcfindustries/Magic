@@ -83,14 +83,11 @@ var text CreateXL =
 
 // Get Records
 
-GetCellValues(
+GetFieldValues(
   GetRecords( 
-    "{FID.GTE." & [Field]& " AND {FID.LTE. "& [Field Two] &"}, [_Table_Name]"
+    "{FID.GTE.'" & [Field]& "'' AND {FID.LTE. '"& [Field Two] &"''}, [_Table_Name]"
             ) , FIDQueried )
   
-
-
-
 
 // HTML Execute URL
 
