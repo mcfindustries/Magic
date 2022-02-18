@@ -63,23 +63,13 @@ var text URLEdit =
   "&dfid=12"&
   "&z=" & Rurl();
 
-
-// URL  Java
-var text CreateXL =
- 
-    "javascript:var wnd=window.open('https://www.quickbaseutilities1.com/tpiefficiency_560/XL Docs/ExcelGen_LP.aspx?"
-& "clientid=Q560"
-& "&appid=bhum3d42g"
-& "&tpdbid=" & [_DBID_DOCUMENT_TEMPLATES]
-& "&tpid=64"
-& "&fn=XL Document"
-& "&dbid=" & Dbid()
-& "&msid=" & URLEncode ([Record ID#])
-& "&faid=767&xlddte=768"
-& "&docfmt=xlsx"
-& "&apptoken=c6m92dqcefshpnmg5e84dd9qz7n"
-& "','copy','top=240,left=320,width=500,height=350,location=no,menubar=no,toolbar=no');\n\nvar id=setInterval(function() {if (wnd.closed) {clearInterval(id);location.reload(true);}},1000);void(0);";
-
+$URLONE
+& "&rdr=" & URLEncode($URLTWO)
+& URLEncode("&rdr=" & URLEncode($URLTHREE))
+& URLEncode(URLEncode("&rdr=" & URLEncode($URLFOUR)))
+& URLEncode(URLEncode(URLEncode("&rdr=" & URLEncode($URLFIVE))))
+& URLEncode(URLEncode(URLEncode(URLEncode("&rdr=" & URLEncode($URLSIX)))))
+& URLEncode(URLEncode(URLEncode(URLEncode(URLEncode("&rdr=" & URLEncode($URLSEVEN))))))
 
 // Get Records
 
@@ -101,24 +91,32 @@ var text URL = URLRoot() & .............
 // Table
 
 var text TableUI =
-  "<table style='width:100% cellspacing='10'  '>" &
+  "<table style='width:100% cellspacing=15'>" &
+  "<tr>" & 
+   "<th width='40%'>Sales Metric</th>" & 
+   "<th width='20%'></th>" &
+   "<th width='20%'></th>" &
+   "<th width='20%'></th>" &
+ "</tr>" &
   "<tr>" &
-    "<th>" & "Header ONE" & "</th>" &
-    "<th>" & "Header TWO" & "</th>" & 
-    "<th>" & "Header THREE" & "</th>" &
-  "</tr>" &
+    "<td>" & "Header " &"</td>" &
+    "<td>" & "Header " &"</td>" &
+    "<td>" & "Header " &"</td>" &
+    "<td>" & "Header " &"</td>" &
+  "</tr>"&
   "<tr>" &
-    "<td>" & "Row One" & "</td>" &
-    "<td>" & "Row One" & "</td>" &
-    "<td>" & "Row One" & "</td>" &
-  "</tr>" &
+    "<td>" & "Row" &"</td>" &
+    "<td>" & "Row" &"</td>" &
+    "<td>" & "Row" &"</td>" &
+    "<td>" & "Row" &"</td>" &
+  "</tr>"&
   "<tr>" &
-    "<td>" & "Row Two" & "</td>" &
-    "<td>" &" Row Two" & "</td>" & 
-    "<td>" & "Row Two" & "</td>" &
-  "</tr>" &
-"</table>";
+    "<td>" & "Row" &"</td>" &
+    "<td>" & "Row" &"</td>" &
+    "<td>" & "Row" &"</td>" &
+    "<td>" & "Row" &"</td>" &
+  "</tr>"&
+"</table>" ;
 
 // UI
-
 $TableUI
