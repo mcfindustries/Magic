@@ -63,6 +63,13 @@ var text URLEdit =
   "&dfid=12"&
   "&z=" & Rurl();
 
+
+var text RefreshPage = URLRoot() & "db/" & Dbid() & "?a=doredirect&z=" & Rurl();
+
+$URL
+& "&rdr=" & URLEncode($RefreshPage)
+
+
 $URLONE
 & "&rdr=" & URLEncode($URLTWO)
 & URLEncode("&rdr=" & URLEncode($URLTHREE))
@@ -71,12 +78,13 @@ $URLONE
 & URLEncode(URLEncode(URLEncode(URLEncode("&rdr=" & URLEncode($URLSIX)))))
 & URLEncode(URLEncode(URLEncode(URLEncode(URLEncode("&rdr=" & URLEncode($URLSEVEN))))))
 
+
+
 // Get Records
 
-GetFieldValues(
-  GetRecords( 
-    "{FID.GTE.'" & [Field]& "'' AND {FID.LTE. '"& [Field Two] &"''}, [_Table_Name]"
-            ) , FIDQueried )
+var text query ="{FID.GTE.'" & [Field]& "'' AND {FID.LTE. '"& [Field Two] &"''}":
+
+GetFieldValues( GetRecords( $query, [_Table_Name]" ) , FIDQueried )
   
 
 // HTML Execute URL
