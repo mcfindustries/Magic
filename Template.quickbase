@@ -82,9 +82,11 @@ $URLONE
 
 // Get Records
 
-var text query ="{FID.GTE.'" & [Field]& "'' AND {FID.LTE. '"& [Field Two] &"''}":
+var text query ="{FID.GTE.'" & [Field]& "'' AND {FID.LTE. '"& [Field Two] &"''}";
 
-GetFieldValues( GetRecords( $query, [_Table_Name]" ) , FIDQueried )
+var textlist  List= GetFieldValues( GetRecords( $query, [_Table_Name] ) , FIDQueried ); 
+var number NumberOfRecords = Size(GetRecords( $query , [_Table_Name]), FIDQueried );  
+var number NumSum = SumValues(GetRecords( $query,  [_Table_Name] ), FIDQueried ));
   
 
 // HTML Execute URL
