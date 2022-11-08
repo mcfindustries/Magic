@@ -1,0 +1,15 @@
+//Exclude from Report
+If([Installation Stage]="Refused", "N/A",
+[Installation Stage]="Remove from Scope", "N/A",
+[Installation Stage]="Cancelled", "N/A",
+[Installation Stage]="Pending", "N/A",
+[Installation Stage]="3rd Party Pending", "N/A",
+
+//Errors
+ ([Installation Stage]="Planned" or [Installation Stage]="Installed" and [Target Installation Date]=null ), "Error - No Target Date",
+
+//On Time v. Past Due
+  ([Installation Stage]="Planned" and Today()<=[Target Installation Date] ), "On Time",
+  ([Installation Stage]="Planned" and Today()>([Target Installation Date]+Days(3)) ), "Past Due",
+  ([Installation Stage]="Installed" and [Actual Installation Date]<=[Target Installation Date]), "On Time",
+  ([Installation Stage]="Installed" and [Actual Installation Date]>([Target Installation Date]+Days(3)) ), "Past Due") 
