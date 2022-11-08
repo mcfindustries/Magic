@@ -12,4 +12,4 @@ If([Installation Stage]="Refused", "N/A",
   ([Installation Stage]="Planned" and Today()<=[Target Installation Date] ), "On Time",
   ([Installation Stage]="Planned" and Today()>([Target Installation Date]+Days(3)) ), "Past Due",
   ([Installation Stage]="Installed" and [Actual Installation Date]<=[Target Installation Date]), "On Time",
-  ([Installation Stage]="Installed" and [Actual Installation Date]>([Target Installation Date]+Days(3)) ), "Past Due") 
+  ([Installation Stage]="Installed" and [Actual Installation Date]>([Target Installation Date]+Days(3)) ), "Past Due", "Final Status if Nothing is True") 
