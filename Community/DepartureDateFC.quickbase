@@ -1,0 +1,17 @@
+//  Formula Check Box for Departure Date Report Control
+
+// Variables
+var number DaysTillDeparture = ToNumber(ToDays([Departure Day]-Today()));
+var number DepartureDateWindow =  ToNumber( ToDays([Departure Day]-[Departure Date Entry]));
+
+
+// Check Box Logic
+
+Case ( $DaysTillDeparture,
+
+3, If( $DepartureDateWindow>3, true, false ),
+2, If ($DepartureDateWindow=2, true, false ),
+1, If ($DepartureDateWindow=1, true, false ),
+0, If ($DepartureDateWindow=0, true, false ) , false
+
+)
