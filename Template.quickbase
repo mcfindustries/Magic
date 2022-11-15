@@ -40,6 +40,9 @@ var bool SysRole = If ( Left($UserRole,3) = "12 " or Contains($UserRole,"; 12 ;"
 
 // URLs
 
+var text URLRecord = 
+    URLRoot() & "db/"& [_DBID] & "?a=dr&rid="& [Record ID#];
+
 var text URLGenAdd =
   URLRoot() & "db/" & Dbid() &
   "?a=API_GenAddRecordForm&_fid_8=" & URLEncode ([Record ID#])&
@@ -78,6 +81,9 @@ $URLONE
 & URLEncode(URLEncode(URLEncode(URLEncode("&rdr=" & URLEncode($URLSIX)))))
 & URLEncode(URLEncode(URLEncode(URLEncode(URLEncode("&rdr=" & URLEncode($URLSEVEN))))))
 
+//  Jinja
+//  Comment   {# ... #}
+
 
 
 // Get Records
@@ -92,6 +98,7 @@ var number NumSum = SumValues(GetRecords( $query,  [_Table_Name] ), FIDQueried )
 // HTML Execute URL
 
 "<div>" & "<span title=" & $HoverWords & ">" & $Hyperlink & "</b></span>" & "<div>";
+ "<a href=" & $CreateXL & ">"  & $MSG &  "</a>"
  "<a href=" & $CreateXL & "' title=\"Click Me\">"  & $ExcelIMG &  "</a>"
 
 var text URL = URLRoot() & .............
