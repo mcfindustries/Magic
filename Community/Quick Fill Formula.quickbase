@@ -1,0 +1,18 @@
+// Search the [Quick Fill BOM String] for [Quick Fill Item Name] and replace with ""
+
+var text SearchString = SearchAndReplace([Quick Fill BOM String],[Quick Fill Item Name],"");
+
+// Concatentate together [Quick Fill Item Name];$SearchString 
+
+var text Concatenate = [Quick Fill Item Name] &";" & $SearchString;
+
+//  Search for ;; and replace with ; 
+
+var text SearchConcatenate = SearchAndReplace( $Concatenate, ";;",";");
+
+// IF the 1st character is ;THEN Return everything not left of the 1st character  ELSE return $Concatenate
+
+var text LeftOne = If(Left($SearchConcatenate,1)=";", NotLeft($SearchConcatenate,1),$SearchConcatenate);
+
+// IF the Last character is ; THEN Return everything not right of the last character  ELSE return $LeftOne
+If(Right($LeftOne,1)=";", NotRight($LeftOne,1), $LeftOne)
