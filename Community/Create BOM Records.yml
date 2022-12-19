@@ -1,0 +1,29 @@
+# Create BOM Records
+#
+
+# Account slugs:
+#  - quickbase[o4OvZbK]: Pipeline Token <None>
+---
+- META:
+    name: Create BOM Records
+    enabled: true
+- TRIGGER quickbase[o4OvZbK] record on_update -> a:
+    inputs-meta:
+      export_fields: '"Quick Fill Reference Fields, Fire Pipeline" <15, 19>'
+      query: '{19.EX.1}'
+      table: '"BOM Builder: BOM" <bsvvevad4>'
+      trigger_fields: '"Fire Pipeline" <19>'
+- ACTION quickbase[o4OvZbK] quickbase_api make -> b:
+    inputs:
+      body: "{%- set plist = a.quick_fill_reference_fields.split(';') -%}\n{\n  \"\
+        to\": \"bsvvexhkj\",\n  \"data\": [\n    {%- for x in plist if x|trim != ''\
+        \ %}\n      {\n        \"6\": { \"value\": \"{{a.id}}\" },\n        \"8\"\
+        : { \"value\": \"{{ x|trim }}\" }\n      }{{ ',' if not loop.last }}\n   \
+        \ {%- endfor %}\n  ]\n}"
+      content_type: application/json
+      method: POST
+      url: https://api.quickbase.com/v1/records
+- a<>ACTION quickbase record update -> c:
+    inputs:
+      fire_pipeline: 'false'
+...
