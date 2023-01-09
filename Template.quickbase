@@ -84,7 +84,8 @@ $URLONE
 //  Jinja
 //  Comment   {# ... #}
 
-
+// Max value from a Search
+{{a|max(attribute='child_table_date')|attr('child_table_date') }}
 
 // Get Records
 
