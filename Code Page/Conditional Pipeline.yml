@@ -1,0 +1,31 @@
+# Conditional
+#
+
+# Account slugs:
+#  - quickbase[o4OvZbK]: Pipeline Token <None>
+---
+- META:
+    name: Conditional
+    enabled: false
+- TRIGGER quickbase[o4OvZbK] record on_create -> a:
+    inputs-meta:
+      export_fields: '"Related Opportunity, Pipeline Message" <6, 8>'
+      table: '"Opp renewal model: Opp Status Change" <bsxhcgm73>'
+- QUERY quickbase[o4OvZbK] record search -> b:
+    inputs-meta:
+      query: '{3.EX.{{a.related_opportunity|int}}}AND{18.EX.1}'
+      table: '"Opp renewal model: Opportunity" <bsxg3uvb4>'
+- b<>LOOP:
+  - DO:
+    - a<>ACTION quickbase record update -> c:
+        inputs:
+          pipeline_message: Then
+- IF:
+  - AND:
+    - b<> exists
+  - THEN:
+    - a<>ACTION quickbase record update -> d:
+        inputs:
+          pipeline_message: Not a valid
+  - ELSE: []
+...
