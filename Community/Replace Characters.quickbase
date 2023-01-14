@@ -1,5 +1,5 @@
 //  Originally Built by Mark Shnier
-// https://www.urlencoder.io/learn/
+// https://www.urlencoder.io/learn/ has a table from RFC 3986 for URL Encoding
 
 
 var text RawOne = URLEncode([My Pasted Field]);
