@@ -1,0 +1,36 @@
+//  Originally Built by Mark Shnier
+// https://www.urlencoder.io/learn/
+
+
+var text RawOne = URLEncode([My Pasted Field]);
+
+var text ReplaceLineFeed =          SearchAndReplace($RawOne, "%0A", "<br>");
+var text ReplaceCarriageReturn =    SearchAndReplace($ReplaceLineFeed, "%0D", "<br>");
+var text ReplaceSpace =             SearchAndReplace($ReplaceCarriageReturn, "%20", " ");
+var text ReplaceExclamation =       SearchAndReplace($ReplaceSpace, "%21", "!");
+var text ReplaceQuote =             SearchAndReplace($ReplaceExclamation, "%22", "\"");
+var text ReplaceHash =              SearchAndReplace($ReplaceQuote, "%23", "#");
+var text ReplaceDollar =            SearchAndReplace($ReplaceHash, "%24", "$");
+var text ReplacePercent =           SearchAndReplace($ReplaceDollar,"%25", "%");
+var text ReplaceAmphersand =        SearchAndReplace($ReplacePercent,"%26","&");
+var text ReplaceSingleQuote =       SearchAndReplace($ReplaceAmphersand,"%27", "'");
+var text ReplaceLeftRoundBracket =  SearchAndReplace($ReplaceSingleQuote,"%28", "(");
+var text ReplaceRightRoundBracket = SearchAndReplace($ReplaceLeftRoundBracket,"%29", ")");
+var text ReplaceStar =              SearchAndReplace($ReplaceRightRoundBracket,"%2A","*");
+var text ReplacePlus =              SearchAndReplace($ReplaceStar,"%2B", "+");
+var text ReplaceComma =             SearchAndReplace($ReplacePlus, "%2C", ",");
+var text ReplaceSlash =             SearchAndReplace($ReplaceComma,"%2F", "/");
+var text ReplaceColon =             SearchAndReplace($ReplaceSlash,"%3A",":");
+var text ReplaceSemiColon =         SearchAndReplace($ReplaceColon,"%3B", ";");
+var text ReplaceLT =                SearchAndReplace($ReplaceSemiColon,"%3C","<");
+var text ReplaceEquals =            SearchAndReplace($ReplaceLT,"%3D", "=");
+var text ReplaceGT =                SearchAndReplace($ReplaceEquals,"%3E",">");
+var text ReplaceQuestion =          SearchAndReplace($ReplaceGT,"%3F","?");
+var text ReplaceAT =                SearchAndReplace($ReplaceQuestion,"%40","@");
+var text ReplaceLeftSquareBracket = SearchAndReplace($ReplaceAT,"%5B", "[");
+var text ReplaceBackSlash =         SearchAndReplace($ReplaceLeftSquareBracket,"%5C","\\");
+var text ReplaceRightSquareBracket = SearchAndReplace($ReplaceBackSlash,"%5D", "]");
+var text ReplaceCaret =             SearchAndReplace($ReplaceRightSquareBracket,"%5E", "^");
+var text ReplaceBackTick =          SearchAndReplace($ReplaceCaret,"%60", "`");
+
+$ReplaceBackTick
