@@ -3,7 +3,7 @@
 // [DBID]="XXX"
 // FID=XXX
 var text Token ="abcdefghijklmnopqrstuv";
-// Trigger
+// Field Type
 
 // Images
 var text IMGLock  =     "<img src=https://images.quickbase.com/si/48/045-lock.png>"; 
