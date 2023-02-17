@@ -1,0 +1,25 @@
+// Source Control
+// [Alias]=[_DBID_XXX]
+// [DBID]="XXX"
+// FID=XXX
+// Formula Rich Text
+// Credit to Mark Shnier for this 
+
+
+// Variables
+var text RID = IF([Record ID#]>0, [Record ID#], "%%rid%%"); // %%rid%% will grab the Record ID of the newly saved record.
+var text MSGSave = "Save and Display in Edit Mode";
+
+
+// URL
+var text URL = URLRoot() & "db/" & dbid() & "?a=er&rid=" & $RID;
+
+// HTML
+var text HTMLUrl = "<a href=" & $URL & ">"  & $MSGSave &  "</a>"
+
+// UI
+$HTMLUrl
+
+"<a class='SaveBeforeNavigating' data-replaceRid=true style=\"text-decoration:none; background: #4b7097; border-radius: 5px; color: #ffffff; display: inline-block; padding: 5px 5px 5px 5px; width:100px; text-align: center; text-shadow: none; border: 2px solid #030404; font-size: 12px \"href='"
+& $URL
+& "'>Save and Display in Edit Mode</a>"
