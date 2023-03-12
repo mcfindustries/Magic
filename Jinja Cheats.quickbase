@@ -11,3 +11,10 @@ Jinja
 //  Adding a variable duration to a date field
 {% set varsecs = a.duration//1000 %}
 {{a.date +time.delta(seconds=varsecs)}}
+
+
+//  if 
+{% if  some_condition %} {{do something }}
+{% elif  some_other_condition %} {{do something }}
+{% else %} {{do something }}
+{% endif %}
