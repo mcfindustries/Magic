@@ -1,0 +1,28 @@
+# If Statement below Created Record
+#
+
+# Account slugs:
+#  - quickbase[o4OvZbK]: Pipeline Token <None>
+---
+- META:
+    name: If Statement below Created Record
+- QUERY quickbase[o4OvZbK] record search -> a:
+    inputs-meta:
+      table: '"Parents: Parent" <bp4igy3re>'
+- a<>LOOP:
+  - DO:
+    - ACTION quickbase[o4OvZbK] record create -> b:
+        inputs-meta:
+          export_fields: '"Related Parent, Child Pipeline Text" <6, 17>'
+          table: '"Parents: Child Table" <bsi8ifddx>'
+        inputs:
+          related_parent: '{{a.id}}'
+    - IF:
+      - AND:
+        - expression<> TRUE {{a.id==12}}
+      - THEN:
+        - b<>ACTION quickbase record update -> c:
+            inputs:
+              child_pipeline_text: Parent is {{a.id}}
+      - ELSE: []
+...
