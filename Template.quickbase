@@ -98,9 +98,9 @@ var number NumSum = SumValues(GetRecords( $query,  [_Table_Name] ), FIDQueried )
 
 // HTML Execute URL
 
-"<div>" & "<span title=" & $HoverWords & ">" & $Hyperlink & "</b></span>" & "<div>";
- "<a href=" & $CreateXL & ">"  & $MSG &  "</a>"
- "<a href=" & $CreateXL & "' title=\"Click Me\">"  & $ExcelIMG &  "</a>"
+var text HTMLDiv = "<div>" & "<span title=" & $HoverWords & ">" & $Hyperlink & "</b></span>" & "<div>";;
+var text HTMLLink =  "<a href=" & $CreateXL & ">"  & $MSG &  "</a>";
+var text HTMLTitle = "<a href=" & $CreateXL & "' title=\"Click Me\">"  & $ExcelIMG &  "</a>";
 
 var text URL = URLRoot() & .............
 
