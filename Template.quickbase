@@ -33,9 +33,8 @@ var workdate
 
 var user
 
+// User Role
 var text UserRole = ToText(UserRoles("ID"));
-
-
 var bool SysRole = If ( Left($UserRole,3) = "12 " or Contains($UserRole,"; 12 ;") or Right($UserRole,3) = " 12" or (Contains($UserRole,"12") and Length($UserRole) = 2) , true, false );  
 
 // URLs
