@@ -90,10 +90,14 @@ $URLONE
 
 var text query ="{FID.GTE.'" & [Field]& "'} AND {FID.LTE. '"& [Field Two] &"''}";
 
-var textlist  PList= GetFieldValues( GetRecords( $query, [_Table_Name] ) , FIDQueried ); 
+var textlist  TextL= GetFieldValues( GetRecords( $query, [_Table_Name] ) , FIDQueried ); 
 var number NumberOfRecords = Size(GetRecords( $query , [_Table_Name]), FIDQueried );  
 var number NumSum = SumValues(GetRecords( $query,  [_Table_Name] ), FIDQueried ));
-  
+
+// Convert To Text and insert break
+
+var text TextT = ToText($TextL);
+var text TextB = SearchAndReplace( $TextT, " ; ", "<br>");
 
 // HTML Execute URL
 
