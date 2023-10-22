@@ -1,0 +1,12 @@
+{# Credit to Doug Henning for developing this #}
+{# Generate all the Sunday dates in a specified year separated by a semicolon #}
+{# Use in a Regex search step and a loop of the results #}
+{% set startDate = time.parse("1/1/2024") -%}
+{% set endDate = startDate + time.delta(month=12,day=31) -%}
+{% set numDays = (endDate - startDate).days -%}
+{% for x in range(0, numDays + 1) -%}
+{% set dateRec = startDate + time.delta(days=x) -%}
+{% if (dateRec.weekday() == 6) -%}
+{{ dateRec|date_ymd }}{{ ';' if not loop.last }}
+{%- endif -%}
+{% endfor -%}
