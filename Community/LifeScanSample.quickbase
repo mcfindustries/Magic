@@ -1,0 +1,17 @@
+//  Sample 
+
+// Messages
+
+var text MSGFollowUpOne = "As Life Scan Wellness continues to enhance psychological testing and resources for mental health, we have screened and recommend for you to consider for fire service ";
+var text MSGFollowUpTwo = " or for law enforcement to gain access to resources through a partnership with UCF Restores. These links can provide accesses to culturally competent trained peer providers or therapists that can deliver sustainable healing.";
+
+// URLs
+var text URLRedline = "redlinerescue.com";
+
+// HTML
+
+var text HTMLRedline =  "<a href=" & $URLRed & ">"  & "Redline Rescue" &  "</a>";
+
+// Logic
+
+var text PHQFollowUp  =  If ([PHQ Follow-up] =true, $MSGFollowUpOne & $HTMLRedline & $MSGFollowUpTwo, "") ;
