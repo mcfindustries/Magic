@@ -1,0 +1,18 @@
+// Contributed by Brian Seymour
+// We filter for records tied constrained by Skill
+
+var number ReportID = 999;
+
+var text url = URLRoot() & "db/" & [_DBID_YOUR_TABLE]
+    & "?a=q"
+    & "&qid=" & URLEncode($ReportID)
+    & "&nv=2"
+    & "&v0="  & URLEncode([Your Field])
+    & "&v1="  & URLEncode("Your Value");
+
+"<a "
+    & "href=\"" & $url & "\""
+    & "rel=\"noopener noreferrer\""
+    & "class=\"Vibrant\">"
+    & "Your Link Name"
+    & "</a>"

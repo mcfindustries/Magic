@@ -1,0 +1,21 @@
+You cannot post this on the forum or they will block this loophole.
+
+If you are willing to cheat on the use of javascript, then this works on Desktop and web mobile to jump to a spot on a form
+
+Make an Application Variable called say [Javascript Words] and leave it blank.  
+
+Then a URL formula Button 
+
+[javascript words] & ":void(window.location.href='#Delivery');"
+
+Then you make an anchor tag Rich text field and put it on the form down near where you want to jump to.
+
+"<a name=Delivery></a>"
+
+In that example I'm jumping to an anchor tag called Delivery.
+
+Then go back into The Application Variable and put in the word javascript.
+
+So the idea is  that if the user lands on the top of the long form and wants to navigate miles down to the bottom they click a quick link button at the top of the form to reposition instantly to a jump target without refreshing the page.  It's instant.
+
+Mark
