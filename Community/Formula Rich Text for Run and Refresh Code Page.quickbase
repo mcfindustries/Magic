@@ -1,4 +1,4 @@
-// Based on the work of Mike Tamoush
+// Based on the work of Chase Duncan
 
 var number MaxRID = [Max Record ID];  //I was using this redirect to a max RID
 var text newDbid = "bs7r4gwbn";  //I was redirecting to a specific table
