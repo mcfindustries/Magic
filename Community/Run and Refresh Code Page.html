@@ -1,0 +1,58 @@
+!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Run, Pause, Refresh</title>
+    <style>
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+            animation: spin 2s linear infinite;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Safari */
+        @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+<script src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'> </script>
+<script>
+
+   function Run() {
+        let urlParams = new URLSearchParams(window.location.search);
+        let rid = urlParams.get('newRID');
+        let dbid = urlParams.get('newDbid');
+        let yourRealm = "sesgroup";
+        let url = `https://${yourRealm}.quickbase.com/db/${dbid}?a=dr&rid=${rid}`
+        if( dbid && rid ) {
+          setTimeout(() => {
+            window.location.replace(url)
+          }, 1000)
+        } else {
+          console.log("something went wrong with your parameters", {dbid, rid, yourRealm, url})
+        }
+    }
+
+    Run();
+
+</script>
+
+<h2 style="text-align:center">Loading</h2>
+<div class="loader"></div>
+</body>
+</html>

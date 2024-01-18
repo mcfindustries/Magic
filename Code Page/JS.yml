@@ -8,7 +8,7 @@ Then a URL formula Button
 
 [javascript words] & ":void(window.location.href='#Delivery');"
 
-Then you make an anchor tag Rich text field and put it on the form down near where you want to jump to.
+Then you make an anchor tag Formula Rich text field and put it on the form down near where you want to jump to.
 
 "<a name=Delivery></a>"
 

@@ -18,6 +18,7 @@ var bool
 var number
 
 var text HoverWords = "Hover in the HTML";
+var text ColorWord = "Last log out: "& "<font color=red>NEVER</font>"& "<br>";
 
 var textlist
 
@@ -32,10 +33,15 @@ var timeofday
 var workdate
 
 var user
+var text Color =  "<font color=red>Manager</font>" &": "&  [Maximum RID Max Time Card Employee Manager Full Name];
 
 // User Role
 var text UserRole = ToText(UserRoles("ID"));
 var bool SysRole = If ( Left($UserRole,3) = "12 " or Contains($UserRole,"; 12 ;") or Right($UserRole,3) = " 12" or (Contains($UserRole,"12") and Length($UserRole) = 2) , true, false );  
+
+// Report Link
+
+var Report = URLRoot() & "db/" & [_DBID_Target_Table] & "?a=q&qid=99&nv=1&v0=";
 
 // URLs
 

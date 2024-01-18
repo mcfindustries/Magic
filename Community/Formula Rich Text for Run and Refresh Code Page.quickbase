@@ -1,0 +1,15 @@
+// Based on the work of Mike Tamoush
+
+var number MaxRID = [Max Record ID];  //I was using this redirect to a max RID
+var text newDbid = "bs7r4gwbn";  //I was redirecting to a specific table
+var text pageid = "4"; //my code page id
+
+var text URL = I have an Add Record API that Runs
+
+var text Redirect =
+  URLRoot() & "db/" & "bpu98ejpu" & "?a=dbpage&pageid=" & $pageid & 
+  "&newRID=" & ($maxRID + 1) & //Pass this variable to code page
+  "&newDbid=" & $newDbid;  //Pass any variables here to code page.
+
+$URL&
+"&rdr=" & URLEncode($Redirect)
