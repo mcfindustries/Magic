@@ -74,8 +74,7 @@ var text URLEdit =
 
 var text RefreshPage = URLRoot() & "db/" & Dbid() & "?a=doredirect&z=" & Rurl();
 
-$URL
-& "&rdr=" & URLEncode($RefreshPage)
+var text URLTwo = $URL & "&rdr=" & URLEncode($RefreshPage)
 
 
 $URLONE
@@ -108,8 +107,8 @@ var text TextB = SearchAndReplace( $TextT, " ; ", "<br>");
 // HTML Execute URL
 
 var text HTMLDiv = "<div>" & "<span title=" & $HoverWords & ">" & $Hyperlink & "</b></span>" & "<div>";;
-var text HTMLLink =  "<a href=" & $CreateXL & ">"  & $MSG &  "</a>";
-var text HTMLTitle = "<a href=" & $CreateXL & "' title=\"Click Me\">"  & $ExcelIMG &  "</a>";
+var text HTMLLink =  "<a href=" & $URL & ">"  & $MSG &  "</a>";
+var text HTMLTitle = "<a href=" & $URL & "' title=\"Click Me\">"  & $IMG &  "</a>";
 
 var text URL = URLRoot() & .............
 
