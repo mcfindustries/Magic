@@ -8,8 +8,7 @@
     name: Now + Hours
 - QUERY quickbase[#######] record search -> a:
     inputs-meta:
-      export_fields: '"Pipeline Text Field, Pipeline Date, Numeric Field" <83, 92,
-        95>'
+      export_fields: '"Pipeline Text Field, Pipeline Date, Numeric Field" <83, 92, 95>'
       table: '"Parents: Parent" <bp4igy3re>'
 - a<>LOOP:
   - DO:
