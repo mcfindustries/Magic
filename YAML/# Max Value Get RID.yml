@@ -1,0 +1,38 @@
+# Max Value Get RID
+#
+# Search a table Get Max Value Get the RID
+#
+
+# Account slugs:
+#  - quickbase[o4OvZbK]: Pipeline Token <None>
+---
+- META:
+    name: Max Value Get RID
+    description: 'Search a table
+
+      Get Max Value
+
+      Get the RID'
+- QUERY quickbase[o4OvZbK] record search -> a:
+    inputs-meta:
+      export_fields: '"Child Table Date" <13>'
+      query: '{6.EX.12}AND{13.XEX.''''}'
+      table: '"Parents: Child Table" <bsi8ifddx>'
+- QUERY quickbase[o4OvZbK] record search -> b:
+    inputs-meta:
+      export_fields: '"Pipeline Text Field, Pipeline Date, Duration, Numeric Field"
+        <83, 92, 94, 95>'
+      query: '{3.EX.12}'
+      table: '"Parents: Parent" <bp4igy3re>'
+    inputs:
+      limit: 1
+- b<>LOOP:
+  - DO:
+    - b<>ACTION quickbase record update -> c:
+        inputs:
+          pipeline_date: '{{a|max(attribute=''child_table_date'')|attr(''child_table_date'')
+            }}'
+          pipeline_text_field: '{% set template = a|max(attribute="child_table_date")%}
+
+            {{template.id}}'
+...

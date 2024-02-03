@@ -1,0 +1,26 @@
+# Now + Hours
+#
+
+# Account slugs:
+#  - quickbase[######]: Realm Default Account <None>
+---
+- META:
+    name: Now + Hours
+- QUERY quickbase[#####] record search -> a:
+    inputs-meta:
+      export_fields: '"Pipeline Text Field, Pipeline Date" <83, 92>'
+      table: '"Parents: Parent" <bp4igy3re>'
+- a<>LOOP:
+  - DO:
+    - a<>ACTION quickbase record update -> b:
+        inputs:
+          pipeline_text_field: '{% if ( time.now >  a.pipeline_date + time.delta(hours=2)) %}
+
+            True
+
+            {% else %}
+
+            False
+
+            {% endif %}'
+...
