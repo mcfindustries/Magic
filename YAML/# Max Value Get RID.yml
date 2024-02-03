@@ -20,8 +20,7 @@
       table: '"Parents: Child Table" <bsi8ifddx>'
 - QUERY quickbase[o4OvZbK] record search -> b:
     inputs-meta:
-      export_fields: '"Pipeline Text Field, Pipeline Date, Duration, Numeric Field"
-        <83, 92, 94, 95>'
+      export_fields: '"Pipeline Text Field, Pipeline Date, Duration, Numeric Field" <83, 92, 94, 95>'
       query: '{3.EX.12}'
       table: '"Parents: Parent" <bp4igy3re>'
     inputs:
