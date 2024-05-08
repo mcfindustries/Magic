@@ -1,0 +1,39 @@
+# JSON Post
+#
+
+# Account slugs:
+#  - quickbase[PoAvqbr#dlarson]: Realm Default Account <None>
+#  - quickbase[o4OvZbK]: Pipeline Token <None>
+---
+- META:
+    name: JSON Post
+- QUERY quickbase[PoAvqbr#dlarson] record search -> a:
+    inputs-meta:
+      export_fields: '"Table Alias, Related Parent REF, Pipeline Text Field, Multiline Text Box" <129, 130, 83, 109>'
+      query: '{3.EX.13}'
+      table: '"Parents: Parent" <bp4igy3re>'
+- a<>LOOP:
+  - DO:
+    - ACTION quickbase[o4OvZbK] quickbase_api make -> b:
+        inputs:
+          body: "{\n  \"to\": \"{{a.table_alias}}\",\n  \"data\": [\n     {\n    \ \    \"{{a.related_parent_ref}}\": { \"value\": \"{{a.id}}\"\n       \ \ }\n     }  \n  ],\n  \"fieldsToReturn\": [\n    3\n    ]\n}"
+          content_type: application/json
+          method: POST
+          url: https://api.quickbase.com/v1/records
+    - ACTION clock timer pause -> c:
+        inputs-meta:
+          duration: 5s
+    - a<>ACTION quickbase record update -> d:
+        inputs:
+          multi_line_text_box: '{{b.json}}'
+          pipeline_text_field: '{% set ns = namespace(newrid='''') -%}
+
+            {% for value in b.json.value -%}
+
+            {% set ns.newrid= b.json.value|string -%}
+
+            {% endfor -%}
+
+
+            {{ns.newrid}}'
+...

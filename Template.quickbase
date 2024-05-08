@@ -58,6 +58,7 @@ var text URLAPIEdit =
   URLRoot() & "db/" & Dbid() & "?act=API_EditRecord&apptoken="&
   $Token &
   "&rid=" &[Record ID#] &
+  "&dfid=X"&
   "&_fid_XX=" & "1";
 
 var text URLAPIAdd =
