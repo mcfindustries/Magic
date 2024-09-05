@@ -75,7 +75,7 @@ var text URLEdit =
 
 var text RefreshPage = URLRoot() & "db/" & Dbid() & "?a=doredirect&z=" & Rurl();
 
-var text URLTwo = $URL & "&rdr=" & URLEncode($RefreshPage)
+var text URLTwo = $URL & "&rdr=" & URLEncode($RefreshPage);
 
 
 $URLONE
@@ -97,7 +97,7 @@ $URLONE
 var text query ="{FID.GTE.'" & [Field]& "'} AND {FID.LTE. '"& [Field Two] &"''}";
 
 var textlist  TextL= GetFieldValues( GetRecords( $query, [_Table_Name] ) , FIDQueried ); 
-var number NumberOfRecords = Size(GetRecords( $query , [_Table_Name]), FIDQueried );  
+var number NumberOfRecords = Size(GetRecords( $query , [_Table_Name]));  
 var number NumSum = SumValues(GetRecords( $query,  [_Table_Name] ), FIDQueried ));
 
 // Convert To Text and insert break
