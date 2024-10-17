@@ -1,0 +1,9 @@
+{% set curRID = a.id|string() %}
+{% set lastint = curRID[-1:] %}
+{% set durodd = 1 + lastint|int  %}
+{% set dureven = 5 + lastint|int  %}
+{% if b.id is odd %}
+{{durodd}}
+{%else %}
+{{dureven}}
+{% endif %}

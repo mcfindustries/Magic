@@ -35,6 +35,10 @@ var workdate
 var user
 var text Color =  "<font color=red>Manager</font>" &": "&  [Maximum RID Max Time Card Employee Manager Full Name];
 
+
+// RegEx
+// ([^;]+)       Create a list or array based on the delimeter  ";"
+
 // User Role
 var text UserRole = ToText(UserRoles("ID"));
 var bool SysRole = If ( Left($UserRole,3) = "12 " or Contains($UserRole,"; 12 ;") or Right($UserRole,3) = " 12" or (Contains($UserRole,"12") and Length($UserRole) = 2) , true, false );  
@@ -94,7 +98,7 @@ $URLONE
 
 // Get Records
 
-var text query ="{FID.GTE.'" & [Field]& "'} AND {FID.LTE. '"& [Field Two] &"''}";
+var text query ="{FID.GTE.'" & [Field]& "'} AND {FID.LTE. '"& [Field Two] &"'}";
 
 var textlist  TextL= GetFieldValues( GetRecords( $query, [_Table_Name] ) , FIDQueried ); 
 var number NumberOfRecords = Size(GetRecords( $query , [_Table_Name]));  
