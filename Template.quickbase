@@ -10,6 +10,7 @@ var text IMGLock  =     "<img src=https://images.quickbase.com/si/48/045-lock.pn
 var text GB =           "<img src=https://images.quickbase.com/si/16/228-rect_green.png>";
 var text YB =           "<img src=https://images.quickbase.com/si/16/229-rect_yellow.png>";
 var text RB =           "<img src=https://images.quickbase.com/si/16/227-rect_red.png>";
+var text Image =        "<img src=https://x.com/icons/checked.png width= 32 height=32>";
 
 //  Variables
 
