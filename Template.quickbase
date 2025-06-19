@@ -37,7 +37,7 @@ var user
 var text Color =  "<font color=red>Manager</font>" &": "&  [Maximum RID Max Time Card Employee Manager Full Name];
 
 
-// RegEx
+/// RegEx
 // ([^;]+)       Create a list or array based on the delimeter  ";"
 
 // User Role
