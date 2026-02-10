@@ -1,0 +1,84 @@
+version: "1.0"
+pipeline:
+  name: "Receipt OCR → OpenAI → Update Record"
+  description: "Extract date & amount from receipt images stored in S3"
+  steps:
+
+    # ------------------------------------------
+    # 1️⃣ Trigger: Record Created or Updated
+    # ------------------------------------------
+    - id: trigger
+      channel: quickbase
+      action: record_trigger
+      parameters:
+        table_id: "bp4igy3re"
+        event: "created_or_updated"
+
+    # ------------------------------------------
+    # 2️⃣ Generate Signed URL for S3 Object
+    # ------------------------------------------
+    - id: signed_url
+      channel: aws_s3
+      action: generate_presigned_url
+      parameters:
+        bucket: "{{ _.env.S3_BUCKET_NAME }}"
+        key: "{{ trigger.record.138 }}"
+        expiration: 600
+      mappings: {}
+
+    # ------------------------------------------
+    # 3️⃣ Send Image to OpenAI Vision API
+    # ------------------------------------------
+    - id: openai_request
+      channel: http
+      action: post
+      parameters:
+        url: "https://api.openai.com/v1/chat/completions"
+        headers:
+          Content-Type: "application/json"
+          Authorization: "Bearer {{ _.env.OPENAI_API_KEY }}"
+        body: |
+          {
+            "model": "gpt-4.1",
+            "messages": [
+              {
+                "role": "user",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Extract the transaction date and final total amount from this receipt. Return ONLY a JSON object with fields 'date' and 'amount'. Use ISO date format YYYY-MM-DD."
+                  },
+                  {
+                    "type": "image_url",
+                    "image_url": {
+                      "url": "{{ signed_url.url }}"
+                    }
+                  }
+                ]
+              }
+            ],
+            "max_tokens": 150
+          }
+
+    # ------------------------------------------
+    # 4️⃣ Parse JSON from OpenAI response
+    # ------------------------------------------
+    - id: parse_json
+      channel: json
+      action: parse
+      parameters:
+        json_string: "{{ openai_request.body.choices[0].message.content }}"
+
+    # ------------------------------------------
+    # 5️⃣ Update Quickbase Record with extracted data
+    # ------------------------------------------
+    - id: update_record
+      channel: quickbase
+      action: update_record
+      parameters:
+        table_id: "bp4igy3re"
+        record_id: "{{ trigger.record.record_id }}"
+        fields:
+          "49": "{{ parse_json.value.date }}"
+          "139": "{{ parse_json.value.amount }}"
+...
