@@ -16,7 +16,7 @@ var text Image =        "<img src=https://x.com/icons/checked.png width= 32 heig
 
 var bool
 
-var number
+var number NumOne = 1;
 
 var text HoverWords = "Hover in the HTML";
 var text ColorWord = "Last log out: "& "<font color=red>NEVER</font>"& "<br>";
