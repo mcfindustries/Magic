@@ -1,0 +1,28 @@
+# Big Test App: Evaluate Record Owner in Conditional
+#
+
+# Account slugs:
+#  - quickbase[PoAvqbr#dlarson]: Realm Default Account <None>
+---
+- META:
+    name: 'Big Test App: Evaluate Record Owner in Conditional'
+    enabled: false
+- TRIGGER quickbase[PoAvqbr#dlarson] record on_update -> a:
+    inputs-meta:
+      app: '"BigTestApp" <bp4igyfhb>'
+      export_fields: '"Pipeline Log" <110>'
+      table: '"Parent" <bp4igy3re>'
+      trigger_fields: '"Check Box" <114>'
+      trigger_on_all_fields: 'false'
+- IF:
+  - AND:
+    - expression<> TRUE {{a.record_owner.email == 'dlarson@mcfindustries.com'}}
+  - THEN:
+    - a<>ACTION quickbase record update -> b:
+        inputs:
+          pipeline_log: Record Owner is  {{a.record_owner.screen_name}}
+  - ELSE:
+    - ACTION clock timer pause -> c:
+        inputs-meta:
+          duration: 2 Sec
+...
