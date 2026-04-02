@@ -6,22 +6,43 @@
     <script>
         const headers = new Map; // All headers that utilize Temp Tokens will be stored/updated in this global variable
 
+        function updateTokenBox(opts) {
+            var dbidEl = document.getElementById('displayDbid');
+            var appEl = document.getElementById('displayAppToken');
+            var tempEl = document.getElementById('displayTempToken');
+            if (opts.dbid !== undefined && dbidEl) dbidEl.textContent = opts.dbid || '(missing ?dbid=)';
+            if (opts.appToken !== undefined && appEl) appEl.textContent = opts.appToken || '(missing ?apptoken=)';
+            var realmEl = document.getElementById('displayRealm');
+            if (opts.realmHostname !== undefined && realmEl) realmEl.textContent = opts.realmHostname || '(empty — add ?realm=yourrealm.quickbase.com)';
+            if (!tempEl) return;
+            if (opts.tempError) {
+                tempEl.textContent = 'Error: ' + opts.tempError;
+                tempEl.style.color = '#c00';
+            } else if (opts.tempToken !== undefined) {
+                tempEl.textContent = opts.tempToken || '—';
+                tempEl.style.color = '';
+            }
+        }
+
         function run(){
 
             const urlParams = new URLSearchParams(window.location.search);
             const dbid = urlParams.get('dbid');
             const appToken = urlParams.get('apptoken');
-            const realm = window.location.hostname.substring(0,window.location.hostname.indexOf("."));
+            // API requires full domain, e.g. myrealm.quickbase.com (see OpenAPI QB-Realm-Hostname example)
+            const realmHostname = (urlParams.get('realm') || window.location.hostname || '').trim();
             const dbids = [dbid]; // Temp Auth will be retrieved for all DBIDs in this array
 
-            // call the authLoop function, passing in the realm, dbids, and apptoken
-            authLoop(realm,dbids,appToken).then(()=>{
+            updateTokenBox({ dbid: dbid, appToken: appToken, realmHostname: realmHostname, tempToken: '—' });
+
+            // call the authLoop function, passing in the realm hostname, dbids, and apptoken
+            authLoop(realmHostname,dbids,appToken).then(()=>{
 
                 statusStream(`These headers can now be used for API calls to ${dbid}:`);
                 // statusStream(JSON.stringify(headers.get(dbid))); // This is a simplified (non-formatted) way to display the same info as below
                 // The next three lines are broken out for easier to read formatting on the page itself
                 statusStream(`{"QB-Realm-Hostname": "${headers.get(dbid)['QB-Realm-Hostname']}"`);
-                statusStream(`"userAgent": "${headers.get(dbid)['userAgent']}"`);
+                statusStream(`"User-Agent": "${headers.get(dbid)['User-Agent']}"`);
                 statusStream(`"Authorization": "${headers.get(dbid)['Authorization']}"}`);
                 statusStream('<br><h1>Stick around to see the token automatically refresh in 15 seconds</h1><br>');
 
@@ -40,50 +61,62 @@
                 });
             });
             // Start the auth refresh timer
-            refreshTempAuth(realm,dbids,appToken);
+            refreshTempAuth(realmHostname,dbids,appToken);
 
         }
 
-        function refreshTempAuth(realm, dbids, apptoken) {
+        function refreshTempAuth(realmHostname, dbids, apptoken) {
             // Temp Auth tokens are only valid for 5 mins - This refreshes those tokens every 4 mins to prevent errors when the script runs longer than 5 mins
             setInterval(() => {
                 statusStream(`<span style="color:green"><b>It's been 15 seconds, refreshing Temp Token now...</b></span>`)
-                authLoop(realm, dbids, apptoken);
+                authLoop(realmHostname, dbids, apptoken);
                 $('#nav').show();
 
             }, 15000); // Currently set to refresh every 15 seconds || *** Recommended setting for a Production env is 240000 (4 mins) ***
         }
-        async function authLoop(realm, dbids, apptoken){
+        async function authLoop(realmHostname, dbids, apptoken){
             // Loop through each dbid to get the temporary authentication
             for (let i = 0; i < dbids.length; i++) {
-                await getTempAuth(realm,dbids[i],apptoken).then((header)=>{
-                    headers.set(dbids[i], header); // Store the temp auth in the headers map
+                await getTempAuth(realmHostname,dbids[i],apptoken).then((header)=>{
+                    if (header) headers.set(dbids[i], header); // Store the temp auth in the headers map
                 })
             }
         }
-        function getTempAuth(realm, dbid, appToken) {
+        function getTempAuth(realmHostname, dbid, appToken) {
             return new Promise(function(resolve) {
                 statusStream(`Making API call to <i>https://api.quickbase.com/v1/auth/temporary/${dbid}</i>...`)
                 $.ajax({
-                    url: `https://api.quickbase.com/v1/auth/temporary/${dbid}`,
+                    url: `https://api.quickbase.com/v1/auth/temporary/${encodeURIComponent(dbid)}`,
                     method: 'GET',
                     headers: {
-                        'QB-Realm-Hostname': realm,
-                        'userAgent': 'QB APIGateway',
+                        'QB-Realm-Hostname': realmHostname,
+                        'User-Agent': 'QB APIGateway',
                         'QB-App-Token': appToken
                     },
                     xhrFields: {
                         withCredentials: true
                     },
                     success: function (data) {
+                        updateTokenBox({ tempToken: data.temporaryAuthorization || '(empty response)' });
                         statusStream(`<b>Temp Token</b>: ${data.temporaryAuthorization}`);
                         statusStream(`This temporary token has access to Table ID <b>${dbid}</b> for 5 minutes<br>`)
                         // return the header object, with temp token, for the specified dbid
                         resolve({
-                            'QB-Realm-Hostname': realm,
-                            'userAgent': 'QB APIGateway',
+                            'QB-Realm-Hostname': realmHostname,
+                            'User-Agent': 'QB APIGateway',
                             'Authorization': `QB-TEMP-TOKEN ${data.temporaryAuthorization}`
                         });
+                    },
+                    error: function (xhr) {
+                        var body = xhr.responseText || '';
+                        var msg = (xhr.responseJSON && xhr.responseJSON.message) ? xhr.responseJSON.message : (xhr.status + ' ' + (xhr.statusText || ''));
+                        if (body && body.length < 500) msg += ' — ' + body;
+                        if (xhr.status === 401 || xhr.status === 403 || /denied|forbidden|unauthorized|not allowed|permission/i.test(msg)) {
+                            msg += ' — See "Role / anonymous access" note on this page.';
+                        }
+                        updateTokenBox({ tempError: msg });
+                        statusStream(`<span style="color:#c00"><b>Temp token request failed:</b> ${msg}</span>`);
+                        resolve(null);
                     }
                 });
             })
@@ -106,6 +139,34 @@
 <body onload="run()">
 <div class="text-center" id="form" >
     <h2>Get Temporary Token</h2>
+    <div class="alert alert-info" style="max-width:720px;margin:12px auto;text-align:left;font-size:14px;">
+        <strong>Role / anonymous access.</strong> Quickbase applies the <em>current viewer’s</em> role (e.g. Administrator vs <strong>Everyone on the Internet</strong>). The temporary-token API can succeed for admins but fail for anonymous users if that role is not allowed to use the app token / API the same way.
+        <ul style="margin:8px 0 0 18px;padding:0;">
+            <li>In the app: check <strong>Roles</strong> → <strong>Everyone on the Internet</strong> — grant whatever rights you intend for public users (tables, fields, and any API-related permissions your account exposes for that role).</li>
+            <li>Confirm the <strong>application token</strong> is valid for the operations and audience you expect (token scope and which roles may use it).</li>
+            <li>Ensure this <strong>code page</strong> is allowed for anonymous users and that testing as “Everyone on the Internet” matches production.</li>
+        </ul>
+        There is no client-side fix: either widen permissions for that role, authenticate users before calling the API, or use a server-side proxy that calls Quickbase with credentials anonymous browsers must not hold.
+    </div>
+    <div class="well" style="max-width:720px;margin:16px auto;text-align:left;">
+        <div style="font-size:14px;color:#555;margin-bottom:12px;">Tokens from the URL and API <small>(temp token updates on each refresh)</small></div>
+        <div style="margin-bottom:10px;">
+            <div style="font-size:12px;color:#777;">Realm <code>QB-Realm-Hostname</code> <small>(full domain; override with <code>?realm=</code>)</small></div>
+            <div id="displayRealm" style="font-family:Consolas,monospace;font-size:14px;word-break:break-all;background:#f5f5f5;padding:8px;border-radius:4px;border:1px solid #ddd;">—</div>
+        </div>
+        <div style="margin-bottom:10px;">
+            <div style="font-size:12px;color:#777;">Table ID <code>dbid</code></div>
+            <div id="displayDbid" style="font-family:Consolas,monospace;font-size:14px;word-break:break-all;background:#f5f5f5;padding:8px;border-radius:4px;border:1px solid #ddd;">—</div>
+        </div>
+        <div style="margin-bottom:10px;">
+            <div style="font-size:12px;color:#777;">App token <code>apptoken</code> (query string)</div>
+            <div id="displayAppToken" style="font-family:Consolas,monospace;font-size:14px;word-break:break-all;background:#f5f5f5;padding:8px;border-radius:4px;border:1px solid #ddd;">—</div>
+        </div>
+        <div>
+            <div style="font-size:12px;color:#777;">Temporary token <small>(from API)</small></div>
+            <div id="displayTempToken" style="font-family:Consolas,monospace;font-size:14px;word-break:break-all;background:#f5f5f5;padding:8px;border-radius:4px;border:1px solid #ddd;min-height:1.5em;">—</div>
+        </div>
+    </div>
     <div id="statusLog" style="font-size:20px"  class="text-center"></div> <!-- This is the element that the statusStream writes to -->
     <div id="nav" hidden>
         <br><br>
